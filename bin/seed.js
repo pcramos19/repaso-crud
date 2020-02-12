@@ -120,7 +120,7 @@ const coasters = [
 ]
 
 Promise.all(coasters.map(coaster => Park.create(coaster.park).then(park => park.name)))
-    .then(() => coasters.map(coaster => Park.findOne({ name: coaster.park.name }).then(park => Object.assign({}, coaster, { park: park._id }))))
+    .then(() => coasters.map(coaster => Park.findOne({ name: coaster.park.name }).then(park => Object.assign({}, coaster, { park: park.id }))))
     .then(findParks => Promise.all(findParks).then(coasters => coasters.map(coaster => Coaster.create(coaster))))
     .then(savedCoasters => Promise.all(savedCoasters).then(coasters => coasters.forEach(coaster => console.log(`Montaña rusa ${coaster.name} creada`))).then(() => mongoose.connection.close()))
     .catch(error => console.log('Error: ', error))
